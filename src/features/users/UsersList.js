@@ -1,7 +1,7 @@
 import { useGetUsersQuery } from "./usersApiSlice" 
 import User from './User'
 
-const UserList = () => {
+const UsersList = () => {
 
     const {
         data: users,
@@ -9,7 +9,7 @@ const UserList = () => {
         isSuccess,
         isError,
         error
-    } = useGetUsersQuery(undefined, {
+    } = useGetUsersQuery('usersList', {
         pollingInterval: 60000,
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
@@ -49,4 +49,4 @@ const UserList = () => {
     return content
 }
 
-export default UserList
+export default UsersList
