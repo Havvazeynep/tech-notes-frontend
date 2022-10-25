@@ -1,9 +1,10 @@
 import { Outlet, Link } from "react-router-dom"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from 'react'
 import { useRefreshMutation } from "./authApiSlice"
 import usePersist from "../../hooks/usePersist"
-import { useSelector } from "react-redux"
+import { useSelector } from 'react-redux'
 import { selectCurrentToken } from "./authSlice"
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const PersistLogin = () => {
 
@@ -22,17 +23,18 @@ const PersistLogin = () => {
     }] = useRefreshMutation()
 
     useEffect(() => {
-        
+
         if (effectRan.current === true || process.env.NODE_ENV !== 'development') { // React 18 Strict Mode
-            
+
             const verifyRefreshToken = async () => {
                 console.log('verifying refresh token')
                 try {
-                    //const responce =
+                    //const response = 
                     await refresh()
-                    //const { accessToken } =response.data
+                    //const { accessToken } = response.data
                     setTrueSuccess(true)
-                } catch (err) {
+                }
+                catch (err) {
                     console.error(err)
                 }
             }
@@ -46,18 +48,18 @@ const PersistLogin = () => {
     }, [])
 
     let content
-    if (!persist) { //perisit: no
+    if (!persist) { // persist: no
         console.log('no persist')
         content = <Outlet />
     } else if (isLoading) { //persist: yes, token: no
         console.log('loading')
-        content = <p>Loading...</p>
+        content = <PulseLoader color={"#FFF"} />
     } else if (isError) { //persist: yes, token: no
         console.log('error')
         content = (
-            <p className="errmsg">
+            <p className='errmsg'>
                 {`${error?.data?.message} - `}
-                <Link to="/login">Please login again</Link>
+                <Link to="/login">Please login again</Link>.
             </p>
         )
     } else if (isSuccess && trueSuccess) { //persist: yes, token: yes

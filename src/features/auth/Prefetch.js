@@ -4,20 +4,13 @@ import { usersApiSlice } from '../users/usersApiSlice';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-const Prefect = () => {
-    useEffect(() => {
-        console.log('subscribing')
-        const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate())
-        const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate())
+const Prefetch = () => {
 
-        return () => {
-            console.log('unsubscribing')
-            notes.unsubscribe()
-            users.unsubscribe()
-        }
+    useEffect(() => {
+        store.dispatch(notesApiSlice.util.prefetch('getNotes', 'notesList', { force: true }))
+        store.dispatch(usersApiSlice.util.prefetch('getUsers', 'usersList', { force: true }))
     }, [])
 
     return <Outlet />
 }
-
-export default Prefect
+export default Prefetch

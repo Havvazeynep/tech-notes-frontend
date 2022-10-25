@@ -7,11 +7,10 @@ import {
     faUserPlus,
     faRightFromBracket
 } from "@fortawesome/free-solid-svg-icons"
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
-
 import useAuth from '../hooks/useAuth'
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const DASH_REGEX = /^\/dash(\/)?$/
 const NOTES_REGEX = /^\/dash\/notes(\/)?$/
@@ -47,7 +46,11 @@ const DashHeader = () => {
     let newNoteButton = null
     if (NOTES_REGEX.test(pathname)) {
         newNoteButton = (
-            <button className="icon-button" title="New Note" onClick={onNewNoteClicked}>
+            <button
+                className="icon-button"
+                title="New Note"
+                onClick={onNewNoteClicked}
+            >
                 <FontAwesomeIcon icon={faFileCirclePlus} />
             </button>
         )
@@ -56,7 +59,11 @@ const DashHeader = () => {
     let newUserButton = null
     if (USERS_REGEX.test(pathname)) {
         newUserButton = (
-            <button className="icon-button" title="New User" onClick={onNewUserClicked}>
+            <button
+                className="icon-button"
+                title="New User"
+                onClick={onNewUserClicked}
+            >
                 <FontAwesomeIcon icon={faUserPlus} />
             </button>
         )
@@ -66,7 +73,11 @@ const DashHeader = () => {
     if (isManager || isAdmin) {
         if (!USERS_REGEX.test(pathname) && pathname.includes('/dash')) {
             userButton = (
-                <button className="icon-button" title="Users" onClick={onUsersClicked}>
+                <button
+                    className="icon-button"
+                    title="Users"
+                    onClick={onUsersClicked}
+                >
                     <FontAwesomeIcon icon={faUserGear} />
                 </button>
             )
@@ -76,14 +87,22 @@ const DashHeader = () => {
     let notesButton = null
     if (!NOTES_REGEX.test(pathname) && pathname.includes('/dash')) {
         notesButton = (
-            <button className="icon-button" title="Notes" onClick={onNotesClicked}>
+            <button
+                className="icon-button"
+                title="Notes"
+                onClick={onNotesClicked}
+            >
                 <FontAwesomeIcon icon={faFilePen} />
             </button>
         )
     }
 
     const logoutButton = (
-        <button className='icon-button' title="Logout" onClick={sendLogout}>
+        <button
+            className="icon-button"
+            title="Logout"
+            onClick={sendLogout}
+        >
             <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
     )
@@ -92,7 +111,7 @@ const DashHeader = () => {
 
     let buttonContent
     if (isLoading) {
-        buttonContent = <p>Logging Out...</p>
+        buttonContent = <PulseLoader color={"#FFF"} />
     } else {
         buttonContent = (
             <>
@@ -124,5 +143,4 @@ const DashHeader = () => {
 
     return content
 }
-
 export default DashHeader
